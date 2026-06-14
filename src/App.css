@@ -1,38 +1,138 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header {
+  height: 60px;
+  background: #0f172a;
+  color: white;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 16px;
+
+  position: sticky;
+  top: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header h1 {
+  margin-left: 12px;
+  font-size: 20px;
+}
+
+.menu-btn,
+.fechar-btn {
+  border: none;
+  background: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.menu {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 260px;
+  height: 100vh;
+
+  background: #1e293b;
+
+  padding: 20px;
+
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+
+  gap: 15px;
+
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+
+  z-index: 1000;
+}
+
+.menu.aberto {
+  transform: translateX(0);
+}
+
+.menu a {
   color: white;
+  text-decoration: none;
+  font-size: 18px;
 }
 
-.App-link {
-  color: #61dafb;
+.overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  z-index: 999;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.conteudo {
+  padding: 20px;
+
+  max-width: 900px;
+  margin: auto;
+}
+
+.card {
+  background: white;
+
+  margin-bottom: 20px;
+
+  padding: 20px;
+
+  border-radius: 10px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 16px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  margin-top: 10px;
+}
+
+@media (min-width: 768px) {
+
+  .menu-btn {
+    display: none;
   }
-  to {
-    transform: rotate(360deg);
+
+  .menu {
+    transform: translateX(0);
+
+    width: 250px;
+  }
+
+  .overlay {
+    display: none;
+  }
+
+  .conteudo {
+    margin-left: 270px;
+    max-width: 1000px;
   }
 }
