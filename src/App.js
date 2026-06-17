@@ -1,23 +1,156 @@
-import { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { 
+  FaBars, FaTimes, FaWifi, FaCopy, FaCheck, FaPhoneAlt, 
+  FaExclamationTriangle, FaMoon, FaSun, FaEye, FaEyeSlash, 
+  FaGlobe, FaAirbnb, FaUsers, FaPaw, FaSmoking, FaUserTimes, 
+  FaChild, FaGlassCheers, FaVolumeMute, FaSnowflake, FaSuitcase,
+  FaBed, FaDoorOpen, FaBath, FaTshirt, FaUtensils, FaWind, 
+  FaShieldAlt, FaCar, FaHome, FaInfoCircle, FaClipboardList, 
+  FaRoute, FaBolt, FaHourglassHalf
+} from "react-icons/fa";
+import { translations } from "./data/translations";
+import SwitchSimulator from "./components/SwitchSimulator";
+import LocalGuide from "./components/LocalGuide";
 import "./App.css";
 
 function App() {
+  const [lang, setLang] = useState(() => {
+    return localStorage.getItem("recanto_lang") || "pt";
+  });
+  const [darkMode, setDarkMode] = useState(() => {
+    return localStorage.getItem("recanto_dark") === "true";
+  });
   const [menuAberto, setMenuAberto] = useState(false);
+  const [activeTab, setActiveTab] = useState("home");
+  const [showWifiPass, setShowWifiPass] = useState(false);
+  const [wifiCopied, setWifiCopied] = useState(false);
+
+  // Sync state with local storage & body classes
+  useEffect(() => {
+    localStorage.setItem("recanto_lang", lang);
+  }, [lang]);
+
+  useEffect(() => {
+    localStorage.setItem("recanto_dark", darkMode);
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, [darkMode]);
+
+  const t = translations[lang];
+
+  // Helper to copy WiFi password
+  const copyWifiPassword = () => {
+    navigator.clipboard.writeText("Garay2026?");
+    setWifiCopied(true);
+    setTimeout(() => setWifiCopied(false), 2000);
+  };
+
+  // Helper to map rules to appropriate icons
+  const getRuleIcon = (index) => {
+    const icons = [
+      <FaUsers />,            // Max capacity
+      <FaPaw className="red-icon" />,              // Pets
+      <FaSmoking className="red-icon" />,          // Smoking
+      <FaUserTimes className="red-icon" />,        // Visitors
+      <FaChild className="red-icon" />,            // Children under 13
+      <FaGlassCheers className="red-icon" />,       // Parties
+      <FaBed className="orange-icon" />,            // Bed linen
+      <FaDoorOpen className="orange-icon" />,       // Beach service (or umbrella)
+      <FaVolumeMute className="red-icon" />,       // Quiet hours
+      <FaSnowflake className="blue-icon" />,       // Fridges
+      <FaSuitcase className="orange-icon" />        // Belongings
+    ];
+    return icons[index] || <FaExclamationTriangle />;
+  };
+
+  // Helper to map structure to icons
+  const getStructureIcon = (index) => {
+    const icons = [
+      <FaBed />,           // 2 rooms
+      <FaBed />,           // Double bed
+      <FaBed />,           // Trundle bed
+      <FaDoorOpen />,      // Balcony
+      <FaBath />,          // Bathrooms
+      <FaTshirt />,        // Laundry area
+      <FaUtensils />,      // Kitchen
+      <FaWind className="blue-icon" />,          // AC
+      <FaWifi className="blue-icon" />,          // Wifi
+      <FaShieldAlt className="green-icon" />,      // Security
+      <FaCar />            // Parking
+    ];
+    return icons[index] || <FaCheck />;
+  };
+
+  // Helper to map amenities to icons
+  const getAmenityIcon = (index) => {
+    const icons = [
+      <FaUtensils />,      // Dishwasher
+      <FaUtensils />,      // Microwave
+      <FaUtensils />,      // Air fryer
+      <FaUtensils />,      // Minibar
+      <FaUtensils />,      // Kitchen utensils
+      <FaWind />,          // Hair dryer
+      <FaBath className="orange-icon" />,          // Hot water
+      <FaTshirt />,        // Retractable line
+      <FaTshirt />,        // Washing machine
+      <FaTshirt />         // Iron
+    ];
+    return icons[index] || <FaCheck />;
+  };
+
+  const navigateToTab = (tabId) => {
+    setActiveTab(tabId);
+    setMenuAberto(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <>
+    <div className={`app-wrapper ${darkMode ? "dark" : ""}`}>
+      {/* Header */}
       <header className="header">
         <button
           className="menu-btn"
           onClick={() => setMenuAberto(true)}
+          aria-label="Open menu"
         >
           <FaBars />
         </button>
 
-        <h1>Recanto dos passarinhos</h1>
+        <div className="header-logo-area" onClick={() => navigateToTab("home")}>
+          <span className="logo-emoji">🐦</span>
+          <h1>{t.title}</h1>
+        </div>
+
+        <div className="header-controls">
+          {/* Language Selector */}
+          <div className="lang-selector">
+            <FaGlobe className="globe-icon" />
+            <select 
+              value={lang} 
+              onChange={(e) => setLang(e.target.value)}
+              className="lang-select"
+            >
+              <option value="pt">PT</option>
+              <option value="en">EN</option>
+              <option value="es">ES</option>
+            </select>
+          </div>
+
+          {/* Theme Toggle */}
+          <button 
+            className="theme-toggle-btn"
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <FaSun className="sun" /> : <FaMoon className="moon" />}
+          </button>
+        </div>
       </header>
 
+      {/* Sidebar Overlay */}
       {menuAberto && (
         <div
           className="overlay"
@@ -25,168 +158,272 @@ function App() {
         />
       )}
 
+      {/* Navigation Sidebar */}
       <aside className={`menu ${menuAberto ? "aberto" : ""}`}>
-        <button
-          className="fechar-btn"
-          onClick={() => setMenuAberto(false)}
-        >
-          <FaTimes />
-        </button>
+        <div className="menu-header">
+          <div className="menu-title">
+            <span className="logo-emoji">🐦</span>
+            <span>Recanto</span>
+          </div>
+          <button
+            className="fechar-btn"
+            onClick={() => setMenuAberto(false)}
+            aria-label="Close menu"
+          >
+            <FaTimes />
+          </button>
+        </div>
 
-        <a href="#inicio">🏠 Início</a>
-        <a href="#wifi">📶 Wi-Fi</a>
-        <a href="#regras">⚠️ Avisos importantes</a>
-        <a href="#checkin">🚪 Check-in e Check-out</a>
-        <a href="#sobre">🏡 Estrutura e Acomodações</a>
-        <a href="#amenidades">✨ Comodidades Disponíveis</a>
-        <a href="#pontos">📍 Pontos de interesse</a>
-        <a href="#emergencia">☎️ Emergência</a>
+        <nav className="menu-nav">
+          <button 
+            className={`nav-link ${activeTab === "home" ? "active" : ""}`}
+            onClick={() => navigateToTab("home")}
+          >
+            <FaHome className="nav-icon" /> {t.nav.home}
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "rules" ? "active" : ""}`}
+            onClick={() => navigateToTab("rules")}
+          >
+            <FaExclamationTriangle className="nav-icon" /> {t.nav.rules}
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "accommodation" ? "active" : ""}`}
+            onClick={() => navigateToTab("accommodation")}
+          >
+            <FaClipboardList className="nav-icon" /> {t.nav.accommodation}
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "switches" ? "active" : ""}`}
+            onClick={() => navigateToTab("switches")}
+          >
+            <FaBolt className="nav-icon" /> {t.nav.switches}
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "guide" ? "active" : ""}`}
+            onClick={() => navigateToTab("guide")}
+          >
+            <FaRoute className="nav-icon" /> {t.nav.guide}
+          </button>
+          <button 
+            className={`nav-link ${activeTab === "emergency" ? "active" : ""}`}
+            onClick={() => navigateToTab("emergency")}
+          >
+            <FaPhoneAlt className="nav-icon" /> {t.nav.emergency}
+          </button>
+        </nav>
+
+        <div className="menu-footer">
+          <span>VistaLabs - 2026</span>
+        </div>
       </aside>
 
+      {/* Main Content Area */}
       <main className="conteudo">
+        <div className="fade-in-section">
+          {activeTab === "home" && (
+            <div className="tab-content">
+              {/* Welcome Card */}
+              <section className="card welcome-card">
+                <h2>{t.welcomeTitle}</h2>
+                <p>{t.welcomeText}</p>
+              </section>
 
-        <section id="inicio" className="card">
-          <h2>Que bom ter você aqui!</h2>
-          <p>
-            Este é um apartamento aconchegante e preparado para proporcionar dias de descanso, lazer e conforto no Guarujá.
+              {/* Wi-Fi & Check-in Dashboard Row */}
+              <div className="dashboard-row">
+                {/* Wi-Fi Card */}
+                <section className="card wifi-card">
+                  <div className="card-header-icon">
+                    <FaWifi className="card-header-svg wifi-color" />
+                    <h3>{t.wifi.title}</h3>
+                  </div>
+                  <div className="wifi-info-box">
+                    <div className="info-field">
+                      <span className="field-label">{t.wifi.network}:</span>
+                      <span className="field-value font-mono">Recanto_Passarinhos_5G</span>
+                    </div>
+                    <div className="info-field">
+                      <span className="field-label">{t.wifi.password}:</span>
+                      <div className="password-wrapper">
+                        <span className="field-value font-mono">
+                          {showWifiPass ? "Garay2026?" : "•••••••••"}
+                        </span>
+                        <button 
+                          className="wifi-toggle-show"
+                          onClick={() => setShowWifiPass(!showWifiPass)}
+                          aria-label="Toggle password visibility"
+                        >
+                          {showWifiPass ? <FaEyeSlash /> : <FaEye />}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    className={`wifi-copy-btn ${wifiCopied ? "copied" : ""}`}
+                    onClick={copyWifiPassword}
+                  >
+                    {wifiCopied ? (
+                      <>
+                        <FaCheck className="btn-icon" /> {t.wifi.copied}
+                      </>
+                    ) : (
+                      <>
+                        <FaCopy className="btn-icon" /> {t.wifi.copyBtn}
+                      </>
+                    )}
+                  </button>
+                </section>
 
-Ideal para casais, famílias ou profissionais em home office, o espaço oferece um ambiente tranquilo, bem equipado e com excelente conexão de internet para trabalho remoto, streaming e chamadas de vídeo.
-          </p>
-        </section>
+                {/* Check-in/Check-out Card */}
+                <section className="card checkin-card">
+                  <div className="card-header-icon">
+                    <FaHourglassHalf className="card-header-svg checkin-color" />
+                    <h3>{t.checkin.title}</h3>
+                  </div>
+                  <div className="checkin-times">
+                    <div className="time-row">
+                      <span className="time-icon">🚪</span>
+                      <span className="time-text">{t.checkin.in}</span>
+                    </div>
+                    <div className="time-row">
+                      <span className="time-icon">🔑</span>
+                      <span className="time-text">{t.checkin.out}</span>
+                    </div>
+                  </div>
+                  <p className="support-notice">
+                    <FaInfoCircle className="info-icon" />
+                    {t.checkin.support}
+                  </p>
+                </section>
+              </div>
+            </div>
+          )}
 
-        <section id="regras" className="card">
-          <h2>⚠️ Avisos importantes</h2>
+          {activeTab === "rules" && (
+            <div className="tab-content">
+              <section className="card rules-card">
+                <h2>{t.rules.title}</h2>
+                <div className="rules-grid">
+                  {t.rules.list.map((rule, index) => (
+                    <div key={index} className="rule-item">
+                      <div className="rule-icon-box">
+                        {getRuleIcon(index)}
+                      </div>
+                      <span className="rule-text">{rule}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            </div>
+          )}
 
-          <ul>
-            <li>Capacidade máxima: 4 hóspedes</li>
-            <li>Pets não são permitidos</li>
-            <li>Fumar não é permitido</li>
-            <li>Visitantes não são permitidos</li>
-            <li>Menores de 13 anos não são permitidos</li>
-            <li>Festas não são permitidas</li>
-            <li>Roupa de cama não inclusa</li>
-            <li>Serviço de praia não incluso</li>
-            <li>Silêncio após 22h.</li>
-          </ul>
-        </section>
+          {activeTab === "accommodation" && (
+            <div className="tab-content">
+              <div className="dashboard-row">
+                {/* Structure Card */}
+                <section className="card structure-card">
+                  <h2>{t.structure.title}</h2>
+                  <ul className="details-list">
+                    {t.structure.list.map((item, index) => (
+                      <li key={index} className="details-item">
+                        <span className="details-icon-wrapper">
+                          {getStructureIcon(index)}
+                        </span>
+                        <span className="details-text">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
 
-        <section id="wifi" className="card">
-          <h2>📶 Wi-Fi</h2>
+                {/* Amenities Card */}
+                <section className="card amenities-card">
+                  <h2>{t.amenities.title}</h2>
+                  <ul className="details-list">
+                    {t.amenities.list.map((item, index) => (
+                      <li key={index} className="details-item">
+                        <span className="details-icon-wrapper">
+                          {getAmenityIcon(index)}
+                        </span>
+                        <span className="details-text">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              </div>
+            </div>
+          )}
 
-          <p>
-            <strong>Rede:</strong> *********
-          </p>
+          {activeTab === "switches" && (
+            <div className="tab-content">
+              <SwitchSimulator lang={lang} t={t} />
+            </div>
+          )}
 
-          <p>
-            <strong>Senha:</strong> **********
-          </p>
+          {activeTab === "guide" && (
+            <div className="tab-content">
+              <LocalGuide lang={lang} t={t} />
+            </div>
+          )}
 
-          <button
-            onClick={() =>
-              navigator.clipboard.writeText("Garay2026?")
-            }
-          >
-            Copiar senha
-          </button>
-        </section>
+          {activeTab === "emergency" && (
+            <div className="tab-content">
+              <section className="card emergency-card">
+                <h2>{t.emergency.title}</h2>
+                <p className="emergency-subtitle">{t.emergency.subtitle}</p>
 
-        <section id="checkin" className="card">
-          <h2>🚪 Check-in e check-out</h2>
+                <div className="emergency-contacts-grid">
+                  {/* Police */}
+                  <a href="tel:190" className="emergency-contact-link police">
+                    <span className="contact-icon"><FaShieldAlt /></span>
+                    <div className="contact-details">
+                      <span className="contact-name">{t.emergency.police}</span>
+                      <span className="contact-number">190</span>
+                    </div>
+                  </a>
 
-          <p>
-            Entrada a partir das 14h.
-          </p>
-          <p>
-            Saída até 12h.
-          </p>          
-        </section>
+                  {/* SAMU */}
+                  <a href="tel:192" className="emergency-contact-link samu">
+                    <span className="contact-icon"><FaPhoneAlt /></span>
+                    <div className="contact-details">
+                      <span className="contact-name">{t.emergency.samu}</span>
+                      <span className="contact-number">192</span>
+                    </div>
+                  </a>
 
-        <section id="sobre" className="card">
-          <h2>🏡 Estrutura e Acomodações</h2>
+                  {/* Firefighters */}
+                  <a href="tel:193" className="emergency-contact-link firefighters">
+                    <span className="contact-icon"><FaExclamationTriangle /></span>
+                    <div className="contact-details">
+                      <span className="contact-name">{t.emergency.firefighters}</span>
+                      <span className="contact-number">193</span>
+                    </div>
+                  </a>
 
-            <ul>
+                  {/* Airbnb Host contact */}
+                  <a 
+                    href="https://www.airbnb.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="emergency-contact-link airbnb"
+                  >
+                    <span className="contact-icon"><FaAirbnb /></span>
+                    <div className="contact-details">
+                      <span className="contact-name">AirBNB</span>
+                      <span className="contact-number">{t.emergency.airbnbContact}</span>
+                    </div>
+                  </a>
+                </div>
+              </section>
+            </div>
+          )}
+        </div>
 
-              <li>2 quartos confortáveis</li>
-              <li>Cama de casal no quarto principal</li>
-              <li>Bicama no quarto secundário para até 2 pessoas</li>
-              <li>Sacada privativa</li>
-              <li>Banheiro principal e banheiro de serviço</li>
-              <li>Área de serviço</li>
-              <li>Cozinha equipada</li>
-              <li>Ar-condicionado no quarto principal</li>
-              <li>Wi-Fi de alta velocidade</li>
-              <li>Portaria 24 horas</li>
-              <li>Vaga de garagem</li>
-
-            </ul>
-            
-        </section>
-
-        <section id="amenidades" className="card">
-          <h2>✨ Comodidades Disponíveis</h2>
-
-          <ul>
-            <li>Máquina de lavar louças</li>
-            <li>Micro-ondas</li>
-            <li>Air Fryer</li>
-            <li>Frigobar</li>
-            <li>Panelas, pratos, copos e talheres</li>
-            <li>Secador de cabelo</li>
-            <li>Água quente</li>
-            <li>Varal retrátil</li>
-            <li>Máquina de lavar roupas</li>
-            <li>Ferro e tábua de passar roupas</li>
-          </ul>
-        </section>
-
-        <section id="mercados" className="card">
-          <h2>📍 Pontos de interesse</h2>
-
-          <ul>
-            <li>Praia da Enseada – 2 km</li>
-            <li>Boliche & Pub Enseada – 2,2 km</li>
-            <li>Praia do Pernambuco – 5 km</li>
-            <li>Acqua Mundo – 5,1 km</li>
-            <li>Carrefour – 5,4 km</li>
-            <li>Restaurante Brisa do Mar – 6 km</li>
-            <li>Alcides Pizzaria – 6,1 km</li>
-            <li>Praia das Pitangueiras – 6,5 km</li>
-            <li>Mirante do Morro do Maluf – 6,6 km</li>
-            <li>Centro do Guarujá – 7 km</li>
-            <li>Shopping La Plage – 7 km</li>
-            <li>Mirante das Galhetas – 10,1 km</li>
-            <li>Assaí Atacadista – 10,3 km</li>
-          </ul>
-        </section>
-
-        <section id="emergencia" className="card">
-          <h2>☎️ Emergência</h2>
-
-          <p>
-            <a href="tel:190">Polícia - 190</a>
-          </p>
-
-          <p>
-            <a href="tel:192">SAMU - 192</a>
-          </p>
-
-          <p>
-            <a href="tel:193">Bombeiros - 193</a>
-          </p>
-
-          <p>
-            <a href="www.airbnb.com">
-              Contato do anfitrião no AirBNB
-            </a>
-          </p>
-        </section>
-
-        <section>
-          <center>VistaLabs - 2026</center>
-        </section>
-
+        {/* Footer info */}
+        <footer className="footer-copyright">
+          <p>VistaLabs - 2026</p>
+        </footer>
       </main>
-    </>
+    </div>
   );
 }
 
