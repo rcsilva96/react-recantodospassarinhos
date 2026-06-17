@@ -34,9 +34,9 @@ export default function Header({
             onChange={(e) => setLang(e.target.value)}
             className="lang-select"
           >
-            <option value="pt">🇧🇷 Português</option>
-            <option value="en">🇺🇸 English</option>
-            <option value="es">🇪🇸 Español</option>
+            <option value="pt">🇧🇷</option>
+            <option value="en">🇺🇸</option>
+            <option value="es">🇪🇸</option>
           </select>
         </div>
 
