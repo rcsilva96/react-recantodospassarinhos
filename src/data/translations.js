@@ -4,12 +4,12 @@ export const translations = {
     welcomeTitle: "Que bom ter você aqui! 🏡",
     welcomeText: "Este é um apartamento aconchegante e preparado para proporcionar dias de descanso, lazer e conforto no Guarujá. Ideal para casais, famílias ou profissionais em home office, o espaço oferece um ambiente tranquilo, bem equipado e com excelente conexão de internet para trabalho remoto, streaming e chamadas de vídeo.",
     nav: {
-      home: "🏠 Início",
-      rules: "⚠️ Avisos importantes",
-      accommodation: "🏡 Acomodação & Comodidades",
-      switches: "⚡ Interruptores",
-      guide: "📍 Guia Local",
-      emergency: "☎️ Emergência"
+      home: "Início",
+      rules: "Avisos importantes",
+      accommodation: "Acomodação & Comodidades",
+      switches: "Interruptores",
+      guide: "Guia Local",
+      emergency: "Emergência"
     },
     wifi: {
       title: "📶 Wi-Fi",
@@ -121,10 +121,10 @@ export const translations = {
       searchPlaceholder: "Buscar praias, restaurantes, mercados...",
       categories: {
         all: "Todos",
-        beach: "🏖️ Praias",
-        food: "🍴 Comer & Beber",
-        leisure: "🎡 Lazer & Turismo",
-        shopping: "🛒 Mercados & Compras"
+        beach: "Praias",
+        food: "Comer & Beber",
+        leisure: "Lazer & Turismo",
+        shopping: "Mercados & Compras"
       },
       directions: "Como chegar"
     },
@@ -142,12 +142,12 @@ export const translations = {
     welcomeTitle: "Welcome! So glad to have you here! 🏡",
     welcomeText: "This is a cozy apartment prepared to provide days of rest, leisure, and comfort in Guarujá. Ideal for couples, families, or remote workers, the space offers a quiet, well-equipped environment with excellent internet connection for remote work, streaming, and video calls.",
     nav: {
-      home: "🏠 Home",
-      rules: "⚠️ House Rules",
-      accommodation: "🏡 Accommodation & Amenities",
-      switches: "⚡ Light Switches",
-      guide: "📍 Local Guide",
-      emergency: "☎️ Emergency"
+      home: "Home",
+      rules: "House Rules",
+      accommodation: "Accommodation & Amenities",
+      switches: "Light Switches",
+      guide: "Local Guide",
+      emergency: "Emergency"
     },
     wifi: {
       title: "📶 Wi-Fi",
@@ -259,10 +259,10 @@ export const translations = {
       searchPlaceholder: "Search beaches, restaurants, grocery stores...",
       categories: {
         all: "All",
-        beach: "🏖️ Beaches",
-        food: "🍴 Eat & Drink",
-        leisure: "🎡 Leisure & Sightseeing",
-        shopping: "🛒 Supermarkets & Mall"
+        beach: "Beaches",
+        food: "Eat & Drink",
+        leisure: "Leisure & Sightseeing",
+        shopping: "Supermarkets & Mall"
       },
       directions: "Directions"
     },
@@ -280,12 +280,12 @@ export const translations = {
     welcomeTitle: "¡Qué bueno tenerte aquí! 🏡",
     welcomeText: "Este es un apartamento acogedor y preparado para brindar días de descanso, recreación y confort en Guarujá. Ideal para parejas, familias o profesionales en home office, el espaço ofrece un ambiente tranquilo, bien equipado y con excelente conexión a internet para trabajo remoto, streaming y videollamadas.",
     nav: {
-      home: "🏠 Inicio",
-      rules: "⚠️ Avisos importantes",
-      accommodation: "🏡 Alojamiento y Servicios",
-      switches: "⚡ Interruptores",
-      guide: "📍 Guía Local",
-      emergency: "☎️ Emergencia"
+      home: "Inicio",
+      rules: "Avisos importantes",
+      accommodation: "Alojamiento y Servicios",
+      switches: "Interruptores",
+      guide: "Guía Local",
+      emergency: "Emergencia"
     },
     wifi: {
       title: "📶 Wi-Fi",
@@ -397,10 +397,10 @@ export const translations = {
       searchPlaceholder: "Buscar playas, restaurantes, supermercados...",
       categories: {
         all: "Todos",
-        beach: "🏖️ Playas",
-        food: "🍴 Comer & Beber",
-        leisure: "🎡 Ocio & Turismo",
-        shopping: "🛒 Supermercados & Compras"
+        beach: "Playas",
+        food: "Comer y Beber",
+        leisure: "Ocio y Turismo",
+        shopping: "Supermercados y Compras"
       },
       directions: "Cómo llegar"
     },
