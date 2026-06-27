@@ -12,7 +12,15 @@ import "./App.css";
 
 function App() {
   const [lang, setLang] = useState(() => {
-    return localStorage.getItem("recanto_lang") || "pt";
+    const savedLang = localStorage.getItem("recanto_lang");
+    if (savedLang) return savedLang;
+
+    // Detect browser/system language
+    const systemLang = navigator.language || navigator.userLanguage || "pt";
+    const shortLang = systemLang.split("-")[0].toLowerCase();
+
+    // Fallback to "pt" if system language is not supported
+    return ["pt", "en", "es"].includes(shortLang) ? shortLang : "pt";
   });
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("recanto_dark") === "true";

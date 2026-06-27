@@ -4,6 +4,12 @@ import {
 } from "react-icons/fa";
 import "./SwitchSimulator.css";
 
+// Import images from assets
+import salaPrincipalImg from "../assets/images/switches/sala_principal.jpg";
+import quarto1DimmerImg from "../assets/images/switches/quarto1_dimmer.jpeg";
+import quarto1DisjuntoresImg from "../assets/images/switches/quarto1_disjuntores.jpeg";
+import quarto2VentiladorImg from "../assets/images/switches/quarto2_ventilador.jpeg";
+
 // Helper component to display image or a premium placeholder
 function SwitchImagePlaceholder({ src, alt, label }) {
   const [error, setError] = useState(false);
@@ -80,7 +86,7 @@ export default function SwitchSimulator({ lang, t }) {
             <div className="guide-card">
               <div className="guide-card-content">
                 <SwitchImagePlaceholder 
-                  src="/images/switches/sala_principal.jpg" 
+                  src={salaPrincipalImg}
                   alt="Interruptor da Sala Principal" 
                   label="Foto do Interruptor da Sala (5 Teclas)"
                 />
@@ -122,7 +128,7 @@ export default function SwitchSimulator({ lang, t }) {
             <div className="guide-card">
               <div className="guide-card-content">
                 <SwitchImagePlaceholder 
-                  src="/images/switches/quarto1_dimmer.jpg" 
+                  src={quarto1DimmerImg} 
                   alt="Dimmer Quarto Principal" 
                   label="Foto do Dimmer (Quarto Principal)"
                 />
@@ -143,7 +149,7 @@ export default function SwitchSimulator({ lang, t }) {
             <div className="guide-card">
               <div className="guide-card-content">
                 <SwitchImagePlaceholder 
-                  src="/images/switches/quarto1_disjuntores.jpg" 
+                  src={quarto1DisjuntoresImg} 
                   alt="Interruptores Cabeceira" 
                   label="Foto dos Interruptores da Cabeceira"
                 />
@@ -169,7 +175,7 @@ export default function SwitchSimulator({ lang, t }) {
             <div className="guide-card">
               <div className="guide-card-content">
                 <SwitchImagePlaceholder 
-                  src="/images/switches/quarto2_ventilador.jpg" 
+                  src={quarto2VentiladorImg} 
                   alt="Controle do Ventilador" 
                   label="Foto do Controle de Parede do Ventilador"
                 />
